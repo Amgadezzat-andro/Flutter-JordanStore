@@ -10,8 +10,6 @@ void main() {
 }
 
 class GeneralShop extends StatefulWidget {
-  //GeneralApp({Key? key}) : super(key: key);
-
   @override
   State<GeneralShop> createState() => _GeneralShopState();
 }
@@ -28,7 +26,6 @@ class _GeneralShopState extends State<GeneralShop> {
 }
 
 class HomePage extends StatefulWidget {
-  // const HomePage({ Key key }) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -44,8 +41,8 @@ class _HomePageState extends State<HomePage> {
         title: Text('GeneralShop'),
       ),
       body: FutureBuilder(
-        future: productsApi.fetchProducts(1),
-        builder: (BuildContext context, AsyncSnapshot<List<Product>> snapShot) {
+        future: productsApi.fetchProduct(75),
+        builder: (BuildContext context, AsyncSnapshot<Product> snapShot) {
           switch (snapShot.connectionState) {
             case ConnectionState.none:
               return _error('nothing happend');
@@ -63,12 +60,7 @@ class _HomePageState extends State<HomePage> {
                 if (!snapShot.hasData) {
                   return _error('no data');
                 } else {
-                  return ListView.builder(
-                    itemBuilder: (BuildContext context, int position) {
-                      return _drawProduct(snapShot.data[position]);
-                    },
-                    itemCount: snapShot.data.length,
-                  );
+                  return _drawProduct(snapShot.data);
                 }
               }
 
@@ -87,12 +79,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text(product.product_title),
-            (product.images.length>0) ?
-            Image(
-              image: NetworkImage(
-                product.images[0],
-              ),
-            ):Container(),
+            (product.images.length > 0)
+                ? Image(
+                    image: NetworkImage(
+                      product.images[0],
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

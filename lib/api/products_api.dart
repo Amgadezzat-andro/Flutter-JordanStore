@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductsApi {
-  Future<List<Product>> fetchProducts(int page) async {
-    // define Headers
-    Map<String, String> headers = {'Accept': 'application/json'};
+  // define Headers
+  Map<String, String> headers = {'Accept': 'application/json'};
 
+  Future<List<Product>> fetchProducts(int page) async {
     // convert path to uri
     Uri api_products = Uri.parse(ApiUtil.PRODUCTS + '?page=' + page.toString());
 
@@ -26,6 +26,16 @@ class ProductsApi {
       return products;
     }
 
+    return null;
+  }
+
+  Future<Product> fetchProduct(int product_id) async {
+    Uri url = Uri.parse(ApiUtil.PRODUCT + product_id.toString());
+    http.Response response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      return Product.fromJson(body['data']);
+    }
     return null;
   }
 }
