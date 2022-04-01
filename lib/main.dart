@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:generalshop/exceptions/login_failed.dart';
 import 'package:generalshop/product/product.dart';
 import 'api/authentication.dart';
 import 'api/products_api.dart';
@@ -10,6 +11,7 @@ import 'product/product_tag.dart';
 import 'utility/country.dart';
 import 'utility/country_city.dart';
 import 'utility/country_state.dart';
+import 'exceptions/exceptions.dart';
 
 void main() {
   runApp(GeneralShop());
@@ -38,6 +40,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HelpersApi helpersApi = HelpersApi();
+  Authentication authentication = Authentication();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('GeneralShop'),
       ),
       body: FutureBuilder(
-        future: helpersApi.fetchStates(3,2),
+        future: helpersApi.fetchStates(1,1),
         builder: (BuildContext context, AsyncSnapshot snapShot) {
           switch (snapShot.connectionState) {
             case ConnectionState.none:
@@ -60,6 +63,9 @@ class _HomePageState extends State<HomePage> {
               break;
             case ConnectionState.done:
               if (snapShot.hasError) {
+                if (snapShot.error is LoginFailed) {
+                  return _error('Username is Uncorrect');
+                }
                 return _error(snapShot.error.toString());
               } else {
                 if (!snapShot.hasData) {
@@ -87,7 +93,6 @@ class _HomePageState extends State<HomePage> {
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Text(item.state_name),
-
       ),
     );
   }
@@ -114,8 +119,9 @@ class _HomePageState extends State<HomePage> {
 
   _error(String error) {
     return Container(
+      color: Colors.red,
       child: Center(
-        child: Text(error),
+        child: Card(child: Text(error)),
       ),
     );
   }
