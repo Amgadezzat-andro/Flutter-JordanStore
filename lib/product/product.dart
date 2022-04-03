@@ -1,3 +1,4 @@
+import 'package:generalshop/exceptions/exceptions.dart';
 import 'package:generalshop/review/product_review.dart';
 
 import 'product_category.dart';
@@ -35,6 +36,25 @@ class Product {
   );
 
   Product.fromJson(Map<String, dynamic> jsonObject) {
+    assert(jsonObject['product_id'] != null, 'Product ID is null');
+    assert(jsonObject['product_title'] != null, 'Product Title is null');
+    assert(jsonObject['product_description'] != null, 'Product DESC is null');
+    assert(jsonObject['product_price'] != null, 'Product Price is null');
+
+    if (jsonObject['product_id'] == null) {
+      throw PropertyRequired('Product ID');
+    }
+
+    if (jsonObject['product_title'] == null) {
+      throw PropertyRequired('Product Title');
+    }
+    if (jsonObject['product_description'] == null) {
+      throw PropertyRequired('Product Description');
+    }
+
+    if (jsonObject['product_price'] == null) {
+      throw PropertyRequired('Product Price');
+    }
     this.product_id = jsonObject['product_id'];
     this.product_title = jsonObject['product_title'];
     this.product_description = jsonObject['product_description'];
@@ -43,13 +63,24 @@ class Product {
     this.product_total = double.tryParse(jsonObject['product_total']);
     this.productCategory =
         ProductCategory.fromJson(jsonObject['product_category']);
-    _setTags(jsonObject['product_tags']);
-    _setImages(jsonObject['product_images']);
-    _setReviews(jsonObject['product_reviews']);
+
+    this.tags = [];
+    if (jsonObject['product_tags'] != null) {
+      _setTags(jsonObject['product_tags']);
+    }
+
+    this.images = [];
+    if (jsonObject['product_images'] != null) {
+      _setImages(jsonObject['product_images']);
+    }
+
+    this.reviews = [];
+    if (jsonObject['product_reviews'] != null) {
+      _setReviews(jsonObject['product_reviews']);
+    }
   }
 
   void _setReviews(List<dynamic> jsonReviews) {
-    this.reviews = [];
     if (jsonReviews.length > 0) {
       for (var item in jsonReviews) {
         if (item != null) {
@@ -60,7 +91,6 @@ class Product {
   }
 
   void _setTags(List<dynamic> jsonTags) {
-    this.tags = [];
     if (jsonTags.length > 0) {
       for (var item in jsonTags) {
         if (item != null) {
@@ -71,7 +101,6 @@ class Product {
   }
 
   void _setImages(List<dynamic> jsonImages) {
-    images = [];
     if (jsonImages.length > 0) {
       for (var image in jsonImages) {
         if (image != null) {

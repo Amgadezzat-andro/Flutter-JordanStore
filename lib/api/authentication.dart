@@ -11,6 +11,9 @@ class Authentication {
 
   Future<User> reigster(String first_name, String last_name, String email,
       String password) async {
+    // checking internet Connection  
+    await checkInternet();
+
     // define body with the needed info
     Map<String, String> body = {
       'first_name': first_name,
@@ -50,6 +53,8 @@ class Authentication {
   }
 
   Future<User> login(String email, String password) async {
+    await checkInternet();
+
     Map<String, String> body = {'email': email, 'password': password};
 
     Uri url = Uri.parse(ApiUtil.AUTH_LOGIN);

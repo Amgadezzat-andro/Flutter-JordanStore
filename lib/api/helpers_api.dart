@@ -13,8 +13,6 @@ class HelpersApi {
   // prepare the headers
   Map<String, String> headers = {'Accept': 'application/json'};
 
-  
-
   Future<List<ProductCategory>> fetchCategories(int page) async {
     await checkInternet();
 
@@ -23,9 +21,11 @@ class HelpersApi {
     switch (response.statusCode) {
       case 200:
         List<ProductCategory> categories = [];
+
         var body = jsonDecode(response.body);
         for (var item in body['data']) {
-          categories.add(ProductCategory.fromJson(item));
+          ProductCategory category = ProductCategory.fromJson(item);
+          categories.add(category);
         }
         return categories;
         break;
