@@ -13,16 +13,19 @@ class HelpersApi {
   // prepare the headers
   Map<String, String> headers = {'Accept': 'application/json'};
 
-  Future<List<ProductCategory>> fetchCategories(int page) async {
+  // Getting All Categories do not need for paging
+  Future<List<ProductCategory>> fetchCategories() async {
     await checkInternet();
 
-    Uri url = Uri.parse(ApiUtil.CATEGORIES + '?page=' + page.toString());
+    // Uri url = Uri.parse(ApiUtil.CATEGORIES + '?page=' + page.toString());
+    Uri url = Uri.parse(ApiUtil.CATEGORIES);
     http.Response response = await http.get(url, headers: headers);
     switch (response.statusCode) {
       case 200:
         List<ProductCategory> categories = [];
 
         var body = jsonDecode(response.body);
+        //print(body);
         for (var item in body['data']) {
           ProductCategory category = ProductCategory.fromJson(item);
           categories.add(category);

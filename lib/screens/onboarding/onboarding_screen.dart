@@ -20,11 +20,12 @@ class SingleOnBoarding extends StatelessWidget {
 
     return Column(
       children: [
+        
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.85,
-          height: MediaQuery.of(context).size.height * 0.35,
+          width: MediaQuery.of(context).size.width * 0.75,
+          height: MediaQuery.of(context).size.height * 0.25,
           child: Image(
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
             image: ExactAssetImage(onBoardingModel.image),
           ),
         ),
