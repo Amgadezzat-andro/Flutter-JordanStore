@@ -2,6 +2,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import '../utilities/size_config.dart';
 import 'onboarding_model.dart';
 import 'onboarding_screen.dart';
 import 'package:generalshop/screens/utilities/screen_utilites.dart';
@@ -42,6 +43,9 @@ class _OnBoardingState extends State<OnBoarding> {
     ),
   ];
 
+  ScreenConfig screenConfig;
+  WidgetSize widgetSize;
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +62,9 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
+    screenConfig = ScreenConfig(context);
+    widgetSize = WidgetSize(screenConfig);
+
     screenHeigth = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     double _mt = MediaQuery.of(context).size.height * 0.2;
@@ -106,12 +113,14 @@ class _OnBoardingState extends State<OnBoarding> {
   }
 
   Widget _showButton() {
+    double offset = (screenConfig.screenType == ScreenType.SMALL) ? 0.05 : 0.1;
+
     return Container(
       child: Transform.translate(
-        offset: Offset(0, -(screenHeigth * 0.1)),
+        offset: Offset(0, -(screenHeigth * offset)),
         child: SizedBox(
           width: screenWidth * 0.75,
-          height: 60,
+          height: widgetSize.buttonHeight,
           child: RaisedButton(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(34),
@@ -122,7 +131,7 @@ class _OnBoardingState extends State<OnBoarding> {
               'Start',
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: widgetSize.buttonFontSize,
                   letterSpacing: 3,
                   fontWeight: FontWeight.bold),
             ),
@@ -143,8 +152,8 @@ class _OnBoardingState extends State<OnBoarding> {
                 ? ScreenUtilities.mainBlue
                 : ScreenUtilities.lightGrey,
           ),
-          width: 35,
-          height: 6,
+          width: widgetSize.pagerDotsWidth,
+          height: widgetSize.pagerDotsHeight,
           margin: (i == qty)
               ? EdgeInsets.only(right: 0)
               : EdgeInsets.only(right: 24),

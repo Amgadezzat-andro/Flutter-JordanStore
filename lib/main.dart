@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'screens/onboarding/onboarding.dart';
 import 'screens/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'screens/utilities/size_config.dart';
 
 void main() {
   // var pref = await SharedPreferences.getInstance();
@@ -13,7 +14,6 @@ void main() {
   Widget homePage = OnBoarding();
   // }
   runApp(GeneralShop(homePage));
-
 }
 
 class GeneralShop extends StatelessWidget {
@@ -24,6 +24,8 @@ class GeneralShop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+
     return MaterialApp(
       title: 'General Shop',
       home: homePage,

@@ -11,7 +11,7 @@ class ApiUtil {
 // LOCAL URLS
 // CHANGE TO IT REAL URLs IN THE RELEASE
 
-  static const String MAIN_API_URL = 'https://2db3-102-44-17-133.ngrok.io/api/';
+  static const String MAIN_API_URL = 'https://2f03-102-44-24-219.ngrok.io/api/';
 
   static const String AUTH_REGISTER = MAIN_API_URL + 'auth/register/';
 
