@@ -2,10 +2,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utilities/size_config.dart';
 import 'onboarding_model.dart';
 import 'onboarding_screen.dart';
 import 'package:generalshop/screens/utilities/screen_utilites.dart';
+import 'package:generalshop/screens/homepage.dart';
 
 class OnBoarding extends StatefulWidget {
   //const OnBoarding({ Key? key }) : super(key: key);
@@ -126,7 +128,14 @@ class _OnBoardingState extends State<OnBoarding> {
               borderRadius: BorderRadius.circular(34),
             ),
             color: ScreenUtilities.mainBlue,
-            onPressed: () {},
+            onPressed: () async {
+              var pref = await SharedPreferences.getInstance();
+              pref.setBool('is_seen', true);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             child: Text(
               'Start',
               style: TextStyle(

@@ -6,13 +6,15 @@ import 'screens/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/utilities/size_config.dart';
 
-void main() {
-  // var pref = await SharedPreferences.getInstance();
-  // bool isSeen = pref.getBool('is_seen');
-  // Widget homePage = HomePage();
-  // if (isSeen == null || !isSeen) {
-  Widget homePage = OnBoarding();
-  // }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  var pref = await SharedPreferences.getInstance();
+  bool isSeen = pref.getBool('is_seen');
+  Widget homePage = HomePage();
+  if (isSeen == null || !isSeen) {
+    homePage = OnBoarding();
+  }
   runApp(GeneralShop(homePage));
 }
 
@@ -24,8 +26,6 @@ class GeneralShop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return MaterialApp(
       title: 'General Shop',
       home: homePage,
