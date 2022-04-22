@@ -11,7 +11,7 @@ class ApiUtil {
 // LOCAL URLS
 // CHANGE TO IT REAL URLs IN THE RELEASE
 
-  static const String MAIN_API_URL = 'https://558e-197-42-27-13.ngrok.io/api/';
+  static const String MAIN_API_URL = 'https://a52e-197-42-19-231.ngrok.io/api/';
 
   static const String AUTH_REGISTER = MAIN_API_URL + 'auth/register/';
 
@@ -20,6 +20,10 @@ class ApiUtil {
   static const String PRODUCTS = MAIN_API_URL + 'products';
 
   static const String PRODUCT = MAIN_API_URL + 'products/';
+
+  static String CATEGORY_PRODUCT(int id,int page) {
+    return MAIN_API_URL + 'categories/' + id.toString() + '/products?page='+page.toString();
+  }
 
   static const String COUNTRIES = MAIN_API_URL + 'countries/';
 
@@ -34,15 +38,13 @@ class ApiUtil {
   static const String CATEGORIES = MAIN_API_URL + 'categories';
 
   static const String TAGS = MAIN_API_URL + 'tags';
-
-
 }
 
 Future<void> checkInternet() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    // I am not  connected to a mobile network or wifi.
-    if (connectivityResult != ConnectivityResult.mobile &&
-        connectivityResult != ConnectivityResult.wifi) {
-      throw NoInternetConnection();
-    }
+  var connectivityResult = await (Connectivity().checkConnectivity());
+  // I am not  connected to a mobile network or wifi.
+  if (connectivityResult != ConnectivityResult.mobile &&
+      connectivityResult != ConnectivityResult.wifi) {
+    throw NoInternetConnection();
   }
+}

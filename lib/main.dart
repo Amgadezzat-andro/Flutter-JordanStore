@@ -68,6 +68,7 @@ class GeneralShop extends StatelessWidget {
             fontFamily: 'Quicksand',
             fontSize: 22,
             fontWeight: FontWeight.w700,
+
           ),
         ),
       ),
