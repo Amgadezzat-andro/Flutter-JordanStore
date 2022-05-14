@@ -32,6 +32,18 @@ class GeneralShop extends StatelessWidget {
       home: homePage,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: ScreenUtilities.textColor),
+          titleMedium: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: ScreenUtilities.textColor),
+        ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -68,7 +80,6 @@ class GeneralShop extends StatelessWidget {
             fontFamily: 'Quicksand',
             fontSize: 22,
             fontWeight: FontWeight.w700,
-
           ),
         ),
       ),

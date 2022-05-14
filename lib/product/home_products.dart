@@ -8,20 +8,23 @@ import 'package:generalshop/api/helpers_api.dart';
 import 'package:generalshop/product/product.dart';
 
 class HomeProductBloc implements Disposable {
+  
   List<Product> products;
   ProductsApi productsApi;
 
   final StreamController<List<Product>> _productController =
       StreamController<List<Product>>.broadcast();
+
   final StreamController<int> _categoryController =
       StreamController<int>.broadcast();
 
-  // get products from stream
+  // OUTPUT THE DATA FROM PRODUCT CONTROLLER
   Stream<List<Product>> get productsStream => _productController.stream;
 
-  // responsible for reciving id
+  //INPUT THE ID FOR CATEGORY CONTROLLER
   StreamSink<int> get fetchProducts => _categoryController.sink;
 
+  //OUTPUT THE ID FROM CATEGORY CONTROLLER
   Stream<int> get category => _categoryController.stream;
 
   int categoryID;
@@ -49,4 +52,6 @@ class HomeProductBloc implements Disposable {
     _productController.close();
     _categoryController.close();
   }
+
+
 }

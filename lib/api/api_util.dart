@@ -11,7 +11,7 @@ class ApiUtil {
 // LOCAL URLS
 // CHANGE TO IT REAL URLs IN THE RELEASE
 
-  static const String MAIN_API_URL = 'https://4658-197-42-19-231.ngrok.io/api/';
+  static const String MAIN_API_URL = 'https://206e-197-63-251-130.ngrok.io/api/';
 
   static const String AUTH_REGISTER = MAIN_API_URL + 'auth/register/';
 
@@ -21,8 +21,12 @@ class ApiUtil {
 
   static const String PRODUCT = MAIN_API_URL + 'products/';
 
-  static String CATEGORY_PRODUCT(int id,int page) {
-    return MAIN_API_URL + 'categories/' + id.toString() + '/products?page='+page.toString();
+  static String CATEGORY_PRODUCT(int id, int page) {
+    return MAIN_API_URL +
+        'categories/' +
+        id.toString() +
+        '/products?page=' +
+        page.toString();
   }
 
   static const String COUNTRIES = MAIN_API_URL + 'countries/';
