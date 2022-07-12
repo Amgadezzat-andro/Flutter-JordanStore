@@ -114,6 +114,6 @@ class Product {
     if (this.images.length > 0) {
       return this.images[0];
     }
-    return 'https://skillz4kidzmartialarts.com/wp-content/uploads/2017/04/default-image.jpg';
+    return 'https://pic.onlinewebfonts.com/svg/img_473618.png';
   }
 }

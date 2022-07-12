@@ -11,7 +11,7 @@ class ApiUtil {
 // LOCAL URLS
 // CHANGE TO IT REAL URLs IN THE RELEASE
 
-  static const String MAIN_API_URL = 'https://206e-197-63-251-130.ngrok.io/api/';
+  static const String MAIN_API_URL = 'https://f15a-197-63-13-244.ngrok.io/api/';
 
   static const String AUTH_REGISTER = MAIN_API_URL + 'auth/register/';
 
@@ -42,6 +42,10 @@ class ApiUtil {
   static const String CATEGORIES = MAIN_API_URL + 'categories';
 
   static const String TAGS = MAIN_API_URL + 'tags';
+
+  static const String CART = MAIN_API_URL + 'carts';
+  //TODO: create the laravel api for it
+  static const String REMOVE_FROM_CART = MAIN_API_URL + 'carts';
 }
 
 Future<void> checkInternet() async {

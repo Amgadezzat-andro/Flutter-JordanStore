@@ -1,20 +1,20 @@
 // ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:generalshop/product/product_category.dart';
 import 'package:generalshop/screens/streams/CATEGORIES_STREAM.dart';
 import 'package:generalshop/screens/utilities/screen_utilites.dart';
 import 'package:generalshop/screens/utilities/size_config.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../api/helpers_api.dart';
 import '../product/product.dart';
+import 'cart_screen.dart';
 import 'utilities/helpers_widgets.dart';
 import 'package:generalshop/product/home_products.dart';
-import 'package:generalshop/screens/streams/dots_stream.dart';
+import 'single_product.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,17 +25,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   ScreenConfig screenConfig;
   HelpersApi helpersApi = HelpersApi();
   HomeProductBloc homeProductBloc = HomeProductBloc();
-  // CategoriesStream categoriesStream = CategoriesStream();
   List<ProductCategory> productCategories;
   PageController _pageController;
   TabController tabController;
   int currentIndex = 0;
-  // int dotCurrentIndex = 1;
-  // DotsStream dotsStream = DotsStream();
+
+  ValueNotifier<int> dotsIndex = ValueNotifier(1);
 
   @override
   void initState() {
-    // homeProductBloc = HomeProductBloc();
     super.initState();
     _pageController = PageController(
       initialPage: 1,
@@ -97,6 +95,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
 
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Text('My Name'),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+              ),
+            ),
+            ListTile(
+              title: Text('Cart'),
+              leading: Icon(Icons.card_travel),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartScreen(),
+                    ));
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text('Home'),
         actions: [
@@ -186,13 +210,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               scrollDirection: Axis.horizontal,
               itemCount: topProducts.length,
               onPageChanged: (int index) {
+                dotsIndex.value = index;
                 // dotsStream.dotsSink.add(index);
                 // dotIndex.value = index;
               },
               itemBuilder: (context, position) {
                 return InkWell(
                   onTap: () {
-                    print(topProducts[position].product_title);
+                    _gotoSingleProduct(topProducts[position], context);
+                    //print(topProducts[position].product_title);
                   },
                   child: Card(
                     margin: EdgeInsets.only(right: 4, left: 4),
@@ -201,6 +227,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     clipBehavior: Clip.hardEdge,
                     child: Container(
                       child: Image(
+                        loadingBuilder:
+                            (context, image, ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) {
+                            return image;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                         fit: BoxFit.cover,
                         image:
                             NetworkImage(topProducts[position].featuredImage()),
@@ -210,6 +245,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 );
               },
             ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: dotsIndex,
+            builder: (context, value, _) {
+              return Container(
+                padding: EdgeInsets.only(top: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _drawDots(topProducts.length, value),
+                ),
+              );
+            },
           ),
           Flexible(
             child: Padding(
@@ -225,20 +272,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 itemBuilder: (BuildContext context, int position) {
                   return InkWell(
                     onTap: () {
-                      print(products[position].product_title);
+                      _gotoSingleProduct(products[position], context);
+                      // print(products[position].product_title);
                     },
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 150,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              shape: BoxShape.rectangle,
-                            ),
-                            child: Image(
-                              image: NetworkImage(
-                                  products[position].featuredImage()),
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 150,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                shape: BoxShape.rectangle,
+                              ),
+                              child: Image(
+                                loadingBuilder: (context, image,
+                                    ImageChunkEvent loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return image;
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                image: NetworkImage(
+                                    products[position].featuredImage()),
+                              ),
                             ),
                           ),
                         ),
@@ -301,5 +361,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       );
     }
     return widgets;
+  }
+
+  void _gotoSingleProduct(Product product, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return SingleProduct(product);
+        },
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:generalshop/customer/user.dart';
 import 'package:generalshop/exceptions/login_failed.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'api_util.dart';
 import 'dart:convert';
 import 'package:generalshop/exceptions/exceptions.dart';
@@ -11,7 +12,7 @@ class Authentication {
 
   Future<User> reigster(String first_name, String last_name, String email,
       String password) async {
-    // checking internet Connection  
+    // checking internet Connection
     await checkInternet();
 
     // define body with the needed info
@@ -66,7 +67,9 @@ class Authentication {
         var body = jsonDecode(response.body);
         print(body);
         var data = body['data'];
-        return User.fromJson(data);
+        User user = User.fromJson(data);
+        await _saveUser(user.user_id, user.api_token);
+        return user;
         break;
       case 404:
         throw ResourceNotFound('User');
@@ -74,8 +77,17 @@ class Authentication {
       case 401:
         throw LoginFailed();
         break;
+      case 422:
+        throw UnproccedEntity();
+        break;
       default:
         return null;
     }
+  }
+
+  Future<void> _saveUser(int userId, String apiToken) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('user_id', userId);
+    sharedPreferences.setString('api_token', apiToken);
   }
 }

@@ -43,8 +43,23 @@ class GeneralShop extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: ScreenUtilities.textColor),
+          displayMedium: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: ScreenUtilities.darkerGreyText),
+          displayLarge: TextStyle(
+              fontFamily: 'Quicksand',
+              fontSize: 18,
+              height: 1.75,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w700,
+              color: ScreenUtilities.darkerGreyText),
         ),
         appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
@@ -81,6 +96,9 @@ class GeneralShop extends StatelessWidget {
             fontSize: 22,
             fontWeight: FontWeight.w700,
           ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: ScreenUtilities.mainBlue,
         ),
       ),
     );
